@@ -18,7 +18,7 @@ import streamlit as st
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import Dense, LSTM
-# Function to load pre-trained LSTM model
+#model for candlestick chart
 def load_trained_model(symbol):
     model_path = f"C:/Users/patel/OneDrive/Documents/pythonaiml/stock1/st/model/{symbol}.h5"
     model = load_model(model_path)
@@ -39,7 +39,7 @@ def predict_next_7_day(model1, scaler, test_data):
     predicted_prices = scaler.inverse_transform(np.array([predicted_prices]).reshape(-1, 1))
     return predicted_prices
 
-# Function to predict next 7 days stock prices
+# predict next 7 days stock prices
 def predict_next_7_days(model, scaler, test_data):
     predicted_prices = []
 
@@ -56,7 +56,7 @@ def predict_next_7_days(model, scaler, test_data):
     predicted_prices = scaler.inverse_transform(np.array([predicted_prices]).reshape(-1, 1))
     return predicted_prices
 
-# Function to create a dataset with multiple features and outputs
+#create a dataset with multiple features and outputs
 def create_dataset(dataset, time_steps=1):
     data_x, data_y = [], []
     for i in range(len(dataset) - time_steps):
@@ -69,7 +69,7 @@ def load_pretrained_model(symbol):
     model = load_model(model_path)
     return model
 
-# Function to train and predict stock prices
+#train and predict stock prices
 def train_and_predict_candels(ticker):
     # Download historical stock data
     df = yf.download(tickers=ticker,start='2015-01-01',end='2024-03-05')
@@ -148,7 +148,7 @@ def train_and_predict_candels(ticker):
     # Display the plot
     st.plotly_chart(fig)
 
-# Streamlit App
+# App
 def main():
     style = """
         <style>
@@ -258,12 +258,6 @@ def main():
                     <h3>{round(row['Predicted Prices'], 2)}</h3>
                 </div>
             """, unsafe_allow_html=True)
-        # Line chart for actual and predicted prices
-        # st.line_chart(pd.concat([stock_data['Open'].tail(180), predicted_chart_data.set_index('Date')['Predicted Prices']], axis=1))
-
-        # Table for predicted prices
-        # st.markdown("<div class='header'>Predicted Prices for the Next 7 Days:</div>", unsafe_allow_html=True)
-        # st.table(predicted_chart_data)
 
 
 if __name__ == "__main__":
